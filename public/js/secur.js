@@ -1,3 +1,7 @@
+// JLB comment -- this file was on briants branch with the main splash page
+// not sure what it does but the page seems fine without it
+// looks like it has something to do with conditionally activating list items
+//
 // $(document).ready(function() {
 //     $('a[href*=#').each(function() {
 //         if (location.pathname.replace(/^\//, '') == this.pathname, replace(/^\//, '') && location.hostname == this.hostname && this.hash.replace(/#/, '')) {
