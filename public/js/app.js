@@ -10,21 +10,44 @@ $(document).ready(function(){
 			customer_pw: pwInput.val().trim()
 		}
 	    $("#data-panel").empty();
-	    $.ajax({
-	        method: "POST",
-	        url: "/customers",
-	        data: postReqData
-	    }).done(loadData).fail(function(err){
-	    	console.log("app.js signup-btn click error");
-	    	console.log(err);
-	    });
+	    ajaxSA("POST", "/signup", postReqData, createResult);
 	});
 
-	function loadData(data) {
-	    $("#data-panel").html(JSON.stringify(data));
+// jlb 6-8-2017-0232 begin INCOMPLETE block
+	// LOGIN SEQUENCE
+	// // jlb 6-8-2017-0232 untested 
+	// $("#login-btn").click(function () {
+    	// event.preventDefault();
+	    // var $form = $("#form-loginsignup");
+		// ajaxSA("POST", "/authenticate", $form.serialize(), setSeshStor);
+
+	// jlb 6-8-2017-0232 untested
+ 	// function setSeshStor(data) {
+		// sessionStorage.setItem("token", data.token);
+	// }
+// jlb 6-8-2017-0232 end INCOMPLETE block
+ 
+
+	function createResult(data) {
+		if (data === "signup-success") {
+		    $("#data-panel").html("<p style='color: red'>Thanks for siging up, please login.</p>");
+		} else {
+			$("#data-panel").html("<p style='color: red'>SIGN UP unsuccessful, please try again.</p>");
+		}
 	}
 
 	function handleError() {
  	   console.log(arguments);
+	}
+
+	function ajaxSA(method, url, data, doneFx){
+	    $.ajax({
+	        method: method,
+	        url: url,
+	        data: data
+	    }).done(doneFx).fail(function(err){
+	    	console.log(">ERROR: app.js, " + method +", " + url + "<");
+	    	console.log(err);
+	    });
 	}
 });

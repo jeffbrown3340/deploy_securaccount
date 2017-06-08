@@ -2,11 +2,11 @@ module.exports = function(sequelize, DataTypes) {
 	var Record = sequelize.define(
 		"Record", 
 		{
-			customer_id: {
-				type: DataTypes.INTEGER(11),
-				allowNull: false,
-				validate: { min: 1 }
-			},
+			// customer_id: {
+			// 	type: DataTypes.INTEGER(11),
+			// 	allowNull: false,
+			// 	validate: { min: 1 }
+			// },
 			amount_due: {
 				type: DataTypes.DOUBLE(11,2),
 				allowNull: false,
@@ -39,28 +39,34 @@ module.exports = function(sequelize, DataTypes) {
 				validate: {
 					len: [1]
 				}
-			},
-			bank_id: {
-				type: DataTypes.INTEGER(11),
-				allowNull: false,
-				validate: { min: 1 }
-			},
-			vendor_id: {
-				type: DataTypes.INTEGER(11),
-				allowNull: false,
-				validate: { min: 1 }
 			}
+			// ,
+			// bank_id: {
+			// 	type: DataTypes.INTEGER(11),
+			// 	allowNull: false,
+			// 	validate: { min: 1 }
+			// },
+			// vendor_id: {
+			// 	type: DataTypes.INTEGER(11),
+			// 	allowNull: false,
+			// 	validate: { min: 1 }
+			// }
+		},
+		{
+			classMethods: {
+				associate:  function(models) {
+					Record.belongsTo(models.Customer, {
+						foreignKey: "customer_id"
+					});
+					Record.belongsTo(models.PayFrom, {
+						foreignKey: "bank_id"
+					});
+					Record.belongsTo(models.PayTo, {
+						foreignKey: "vendor_id"
+					});
+				}
+			}	
 		}
-		// ,
-		// {
-		// 	classMethods: {
-		// 		associate:  function(models) {
-		// 			Record.hasMany(models.Post, {
-		// 				onDelete: "cascade"
-		// 			});
-		// 		}
-		// 	}	
-		// }
 	);
 
 	return Record;
