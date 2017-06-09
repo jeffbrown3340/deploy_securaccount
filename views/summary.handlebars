@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Table</h2>
+  <p>Using all the table classes on one table:</p>                                          
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+      <tr class="info">
+        <th>Paying From</th>
+        <th>Account</th>
+        <th>Type</th>
+        <th>Paying To</th>
+        <th>Account ID</th>
+        <th>Amount</th>
+        <th>Pay Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each summary}}
+          <tr class="info">
+            <td>{{PayFrom.bank_name}}</td>
+            <td>{{customer_acct}}</td>
+            <td>{{cust_acct_type}}</td>
+            <td>{{PayTo.vendor_name}}</td>
+            <td>{{vend_acct}}</td>
+            <td>{{amount_due}}</td>
+            <td>{{pmt_date}}</td>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

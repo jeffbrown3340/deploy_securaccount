@@ -73,7 +73,9 @@ module.exports = function(app) {
       where: {customer_id: req.token.userId},
       include: [db.PayTo, db.PayFrom, db.Customer]      
     }).then(function(result){
-      res.json(result);
+      // res.json(result);
+      console.log("result--\n", JSON.stringify(result));
+      res.render('summary', {summary: result});
     });
   });
 };

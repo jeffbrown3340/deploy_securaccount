@@ -4,10 +4,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var db = require("./models");
+var exphbs = require("express-handlebars");
 
 // Express
 var app = express();
 var PORT = process.env.PORT || 8080;
+
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
 
 // bodyParser
 app.use(bodyParser.json());
