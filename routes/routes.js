@@ -1,5 +1,7 @@
 var db = require("../models");
 var path = require("path");
+var authorize = require('../auth-helpers/authorize');
+var authenticate = require('../auth-helpers/authenticate');
 module.exports = function(app) {
   //main page/initial load (start with login.html, change to splash as project progresses)
   app.get("/login", function(req, res) {
@@ -9,6 +11,8 @@ module.exports = function(app) {
   app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
+
+  app.post("/authenticate", authenticate);
 
   app.post("/signup", function(req, res) {
     // customer trying to sign up, so check for username in db.Customer
@@ -34,47 +38,13 @@ module.exports = function(app) {
     	  });
       }
     });
- });
+  });
 
- // jlb 6-8-2017-0232 begin INCOMPLETE block
- //  app.post("/authenticate", function(req, res) {
- //    // customer trying to login, so try to match username and PW
- //    db.Customer.findOne({
- //      where: {
- //          customer_name: req.body.customer_name,
- //          customer_pw: req.body.customer_pw
- //      }
- //    }).then(function(dbCustomer){
- //      // if query is successful, dbCustomer is not null
- //      // turn this into the true condition
- //      // with the NOT operator
- //      // if successful, authenticate and proceed
- //      if (!dbCustomer) {
- //        res.send("login-failure");
- //      } else {
- //        db.Customer.create({
- //          customer_name: req.body.customer_name,
- //          customer_pw: req.body.customer_pw
- //        }).then(res.send("login-success"))
- //          .catch(function(err){
- //          console.log("app.js post login error");
- //          console.log(err);
- //          res.send("login-failure");
- //        });
- //      }
- //    });
- // });
-// jlb 6-8-2017-0232 end INCOMPLETE block
- 
-
-
-  app.get("/records", function(req, res){
+  app.get("/records", authorize, function(req, res){
     db.Record.findAll({
-      where: {customer_id: req.token.userId},
+      where: {customer_id: req.token.user_id},
       include: [db.PayTo, db.PayFrom, db.Customer]      
     }).then(function(result){
-      // res.json(result);
-      console.log("result--\n", JSON.stringify(result));
       res.render('summary', {summary: result});
     });
   });

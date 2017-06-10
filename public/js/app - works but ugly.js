@@ -30,14 +30,32 @@ $(document).ready(function(){
 			    $("html").empty();
     			$("html").append(completeHtmlPage);
     		}
-	    }).done().fail(function(err){
+	    }).done(function(html){
+	    	console.log("html=",html);
+	    	// $(document).html(html);
+	    }).fail(function(err){
 	    	console.log(">ERROR: app.js, " + method +", " + url + "<");
 	    	console.log(err);
 	    });
+
 	}
+
+	// old code from node-token-authentication	    
+	//     var $form = $(this);
+
+	//     $.ajax({
+	//         method: "POST",
+	//         url: "/api/authenticate",
+	//         data: $form.serialize()
+	//     }).done(function (data) {
+	//         sessionStorage.setItem("token", data.token);
+	//     }).fail(handleError);
+	// });
+
 
 	$("#signup-btn").click(function () {
     	event.preventDefault();
+		// $("#data-panel").text("signup button clicked");		
 		var nameInput = $("#LoginUser");
 		var pwInput = $("#LoginPassword");
 		var postReqData = {
@@ -47,6 +65,21 @@ $(document).ready(function(){
 	    $("#data-panel").empty();
 	    ajaxSA("POST", "/signup", postReqData, createResult);
 	});
+
+// jlb 6-8-2017-0232 begin INCOMPLETE block
+	// LOGIN SEQUENCE
+	// // jlb 6-8-2017-0232 untested 
+	// $("#login-btn").click(function () {
+    	// event.preventDefault();
+	    // var $form = $("#form-loginsignup");
+		// ajaxSA("POST", "/authenticate", $form.serialize(), setSeshStor);
+
+	// jlb 6-8-2017-0232 untested
+ 	// function setSeshStor(data) {
+		// sessionStorage.setItem("token", data.token);
+	// }
+// jlb 6-8-2017-0232 end INCOMPLETE block
+ 
 
 	function createResult(data) {
 		if (data === "signup-success") {
@@ -71,4 +104,7 @@ $(document).ready(function(){
 	    });
 	}
 
+	function sayHello(){
+		console.log("6-9-2017-2139-HELLO");
+	}
 });
